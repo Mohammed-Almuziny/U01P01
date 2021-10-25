@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: yellowgreen;
+}
+
+header {
+    width: 100%;
+    height: 5rem;
+    padding: 1rem;
+    background-color: aquamarine;
+
+    position:sticky;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header ul {
+    display: flex;
+    align-items: center;
+}
+
+header li {
+    display: inline-block;
+    margin: 0 1rem;
+}
+
+.logo {
+    height: 10rem;
+    width: 10rem;
+}
+
+a {
+    text-decoration: none;
+    font-size: xx-large;
+}
+
+.Wrapper {
+    height: 100%;
+    margin: 0;
+    
+}
+
+main {
+    margin: 4rem 5rem 4rem 0;
+
+ 
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 50px;
+    justify-items: center;
+}
+
+
+.card {
+    height: 20rem;
+    width: 20rem;
+
+    border: 0.3rem solid black;
+
+    background-color: aquamarine;
+    position: relative;
+}
+
+img {
+    height: 90%;
+    width: 100%;
+}
+/* span {
+    display: none;
+} */
+
+/* .liked {
+    color:red;
+    background-color: red;
+} */
+
+.center {
+    margin-top: 1rem;
+
+    display: flex;
+    justify-content: center;
+}
+
+.btnShowMore {
+    background-color: aquamarine;
+    padding: 1rem;
+
+    border: 0;
+    border-radius: 1rem;
+
+}
+
+
+footer {
+    width: 100%;
+    /* height: 5rem; */
+
+    margin: 0;
+    padding: 0.5rem;
+    background-color: aquamarine;
+
+    position: fixed;
+    left: 0;
+    bottom: 0;
+
+    display: flex;
+    justify-content: center;
+} 
+
