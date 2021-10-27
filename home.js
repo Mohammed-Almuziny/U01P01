@@ -80,6 +80,16 @@ let locationsTemblet = [
     views: 0,
     isLike: false,
   },
+  {
+    id: 8,
+    name: "St. Lucia",
+    description:
+    "Lush, unspoiled St. Lucia has a growing fan base. Some of its vacationers are music lovers, letting loose at the springtime St. Lucia Jazz & Arts Festival, or adrenaline junkies, testing their limits climbing The Pitons or zip lining through the Chassin region's rain forest. Others are honeymooners, unwinding on one of the island's chalky beaches or holing up in one of its isolated resorts.",
+    image: "image/image8.jpg",
+    images: ["image/image8-1.jpg", "image/image8-2.jpg", "image/image8.jpg"],
+    views: 0,
+    isLike: false,
+  },
 ];
 
 let locations = [];
@@ -91,7 +101,7 @@ if (cheakLoactions == null) {
   locations = [...cheakLoactions];
 }
 
-let maxCard = 2;
+let maxCard = 3;
 
 const shortStr = (str) => {
   str = str.substr(0, 100);
@@ -158,7 +168,7 @@ const info = (i) => {
 
 const showMore = () => {
   newMaxCard = maxCard;
-  for (let i = maxCard + 1; i <= maxCard + 3; i++) {
+  for (let i = maxCard + 1; i <= maxCard + 4; i++) {
     if (locations[i]) {
       $(".cards").append(`
       <div class="card" >
