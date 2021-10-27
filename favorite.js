@@ -40,21 +40,21 @@ let favLocation = locations.filter((location) => location.isLike);
 let maxCard = 2;
 
 const shortStr = (str) => {
-  str = str.substr(0,100)
-  str+= "..."
-  return str
-}
+  str = str.substr(0, 100);
+  str += "...";
+  return str;
+};
 
 const like = (ID, favIndex) => {
   console.log(favIndex);
-  let index;
-  locations.find((location, i) => {
-    if (location.id == ID) {
-      console.log(location.id);
-      index = i;
-      return;
-    }
-  });
+  // let index;
+  // locations.find((location, i) => {
+  //   if (location.id == ID) {
+  //     console.log(location.id);
+  //     index = i;
+  //     return;
+  //   }
+  // });
 
   //       if (locations[index].isLike) {
   //     locations[index].isLike = false;
@@ -62,86 +62,109 @@ const like = (ID, favIndex) => {
   //     locations[index].isLike = true;
   //   }
   favLocation.splice(favIndex, 1);
-  locations[index].isLike = false;
+  console.log(ID);
+  locations[ID].isLike = false;
   localStorage.setItem("locations", JSON.stringify(locations));
   render();
 };
 
 const likeInfo = (ID, favIndex) => {
-  let index;
-  locations.find((location, i) => {
-    if (location.id == ID) {
-      index = i;
-      return;
-    }
-  });
-
-  console.log(index);
+  // let index;
+  // locations.find((location, i) => {
+  //   if (location.id == ID) {
+  //     index = i;
+  //     return;
+  //   }
+  // });
 
   if (favLocation[favIndex].isLike) {
     $("i").css("color", "black");
-    locations[index].isLike = false;
+    locations[ID].isLike = false;
   } else {
     $("i").css("color", "red");
-    locations[index].isLike = true;
+    locations[ID].isLike = true;
   }
 
   localStorage.setItem("locations", JSON.stringify(locations));
 };
 
-const info = (i) => {
+const likeSearch = (index, val) => {
+  if (locations[index].isLike) {
+    locations[index].isLike = false;
+  } else {
+    locations[index].isLike = true;
+  }
+
+  favLocation.splice(favIndex, 1);
+  localStorage.setItem("locations", JSON.stringify(locations));
+  renderSearch(val);
+};
+
+const info = (ID, i) => {
+  locations[ID].views = locations[ID].views + 1;
+  localStorage.setItem("locations", JSON.stringify(locations));
   $("main").addClass("mainInfo");
   $("main").html(`
       <div class="info">
           <img class="infoImg" src=${favLocation[i].images[0]} alt="image" />
           <div class="infoData">
               <h2> ${favLocation[i].name} 
-                  <i class="fa fa-heart-o" style="color:${
+                  <i class="fa fa-heart" style="color:${
                     favLocation[i].isLike ? "red" : "black"
                   }" onclick="likeInfo(${favLocation[i].id}, ${i})" >
               </i>
               </h2> 
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, perferendis assumenda totam quisquam eius voluptas rerum exercitationem mollitia laborum itaque.<P>
+              <p>${favLocation[i].description}<P>
           </div>
       </div>`);
 
-
-    let index = 0;
-    let maxImages = favLocation[i].images.length -1;
-    setInterval(function() {;
-        index = (index == maxImages) ? 0 : ++index;
-        $('.infoImg').attr('src',favLocation[i].images[index]).fadeIn('slow');
-     }, 4000);
+  let index = 0;
+  let maxImages = favLocation[i].images.length - 1;
+  setInterval(function () {
+    index = index == maxImages ? 0 : ++index;
+    $(".infoImg").attr("src", favLocation[i].images[index]).fadeIn("slow");
+  }, 4000);
 };
 
 const showMore = () => {
-    newMaxCard = maxCard;
-    for (let i = maxCard + 1; i <= maxCard + 3; i++) {
-      if (favLocation[i]) {
-        $(".cards").append(`
+  newMaxCard = maxCard;
+  for (let i = maxCard + 1; i <= maxCard + 3; i++) {
+    if (favLocation[i]) {
+      $(".cards").append(`
         <div class="card" >
-            <img src=${locations[i].image} alt="image" onclick="info(${i})"/>
+            <img src=${favLocation[i].image} alt="image" onclick="info(${
+        favLocation[i].id
+      },${i})"/>
               <div class="cardDiv">
-                <span class="span"> ${locations[i].name}  </span>
-                <p> ${shortStr(locations[i].description)} <span class="readMore" onclick="info(${i})" >read more</span></p>
+                <span class="span"> ${favLocation[i].name}  </span>
+                <p> ${shortStr(
+                  favLocation[i].description
+                )} <span class="readMore" onclick="info(${
+        favLocation[i].id
+      },${i})" >read more</span></p>
                 <hr>
                 <div class="cardInfo">
-                  <span> view ${locations[i].views}  </span>
+                  <span> view ${favLocation[i].views}  </span>
                   <i class="fa fa-heart" style="color:${
-                  locations[i].isLike ? "red" : "black"
-                  }" onclick="like(${i})" ></i>
+                    favLocation[i].isLike ? "red" : "black"
+                  }" onclick="like(${favLocation[i].id}, ${i})" ></i>
                 </div>
               </div>
         </div>
     `);
-        newMaxCard++;
-      } else {
-        $(".btnShowMore").remove();
-        break;
-      }
+      newMaxCard++;
+    } else {
+      $(".btnShowMore").remove();
+      break;
     }
-    maxCard = newMaxCard;
-  };
+  }
+  maxCard = newMaxCard;
+
+  if (!favLocation[(maxCard+1)]){
+    $(".btnShowMore").remove();
+  }
+
+};
 
 const render = () => {
   $(".cards").html(` `);
@@ -149,16 +172,22 @@ const render = () => {
     if (favLocation[i]) {
       $(".cards").append(`
       <div class="card" >
-      <img src=${favLocation[i].image} alt="image" onclick="info(${i})"/>
+      <img src=${favLocation[i].image} alt="image" onclick="info(${
+        favLocation[i].id
+      },${i})"/>
         <div class="cardDiv">
           <span class="span"> ${favLocation[i].name}  </span>
-          <p> ${shortStr(favLocation[i].description)} <span class="readMore" onclick="info(${i})" >read more</span></p>
+          <p> ${shortStr(
+            favLocation[i].description
+          )} <span class="readMore" onclick="info(${
+        favLocation[i].id
+      },${i})" >read more</span></p>
           <hr>
           <div class="cardInfo">
             <span> view ${locations[i].views} </span>
             <i class="fa fa-heart" style="color:${
               favLocation[i].isLike ? "red" : "black"
-            }" onclick="like(${i})" ></i>
+            }" onclick="like(${favLocation[i].id}, ${i})" ></i>
           </div>
         </div>
   </div>
@@ -167,10 +196,11 @@ const render = () => {
       $(".btnShowMore").remove();
       break;
     }
-    if(favLocation.length == 3){
-        $(".btnShowMore").remove();
+    if (favLocation.length == 3) {
+      $(".btnShowMore").remove();
     }
   }
+
   //   locations.forEach((location,index) => {
   //     $(".cards").append(`
   //         <div class="card">
@@ -193,7 +223,44 @@ const render = () => {
   //   );
 };
 
+const renderSearch = (val) => {
+  let newArr = favLocation.filter((location) =>
+    location.name.toUpperCase().includes(val.toUpperCase())
+  );
+  $(".cards").html(` `);
+
+  newArr.forEach((location, i) => {
+    $(".cards").append(`
+    <div class="card" >
+        <img src=${location.image} alt="image" onclick="info(${location.id},${location.id})"/>
+          <div class="cardDiv">
+            <span class="span"> ${location.name}  </span>
+            <p> ${shortStr(
+              location.description
+            )} <span class="readMore" onclick="info(${location.id},${location.id})" >read more</span></p>
+            <hr>
+            <div class="cardInfo">
+              <span> view ${location.views}  </span>
+              <i class="fa fa-heart" style="color:${
+                location.isLike ? "red" : "black"
+              }" onclick="likeSearch(${location.id}, '${val}')" ></i>
+            </div>
+          </div>
+    </div>
+`);
+  });
+};
+
 render();
 
 $(".btnShowMore").on("click", showMore);
 // click(showMore());
+
+$(document.body).on("keyup", $.searchInput, function (event) {
+  if (event.keyCode == 13) {
+    // 13 = Enter Key
+    renderSearch($(".searchInput").val());
+    $(".searchInput").val("");
+    $(".btnShowMore").remove();
+  }
+});

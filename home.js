@@ -94,10 +94,10 @@ if (cheakLoactions == null) {
 let maxCard = 2;
 
 const shortStr = (str) => {
-  str = str.substr(0,100)
-  str+= "..."
-  return str
-}
+  str = str.substr(0, 100);
+  str += "...";
+  return str;
+};
 
 const like = (index) => {
   if (locations[index].isLike) {
@@ -119,8 +119,19 @@ const likeInfo = (index) => {
   info(index);
 };
 
+const likeSearch = (index, val) => {
+  if (locations[index].isLike) {
+    locations[index].isLike = false;
+  } else {
+    locations[index].isLike = true;
+  }
+
+  localStorage.setItem("locations", JSON.stringify(locations));
+  renderSearch(val);
+};
+
 const info = (i) => {
-  locations[i].views = locations[i].views + 1 ;
+  locations[i].views = locations[i].views + 1;
   localStorage.setItem("locations", JSON.stringify(locations));
   $("main").addClass("mainInfo");
   $("main").html(`
@@ -128,7 +139,7 @@ const info = (i) => {
         <img class="infoImg" src=${locations[i].images[0]} alt="image" />
         <div class="infoData">
             <h2> ${locations[i].name} 
-                <i class="fa fa-heart-o" style="color:${
+                <i class="fa fa-heart" style="color:${
                   locations[i].isLike ? "red" : "black"
                 }" onclick="likeInfo(${i})" >
             </i>
@@ -154,12 +165,14 @@ const showMore = () => {
       <img src=${locations[i].image} alt="image" onclick="info(${i})"/>
         <div class="cardDiv">
           <span class="span"> ${locations[i].name}  </span>
-          <p> ${shortStr(locations[i].description)} <span class="readMore" onclick="info(${i})" >read more</span></p>
+          <p> ${shortStr(
+            locations[i].description
+          )} <span class="readMore" onclick="info(${i})" >read more</span></p>
           <hr>
           <div class="cardInfo">
             <span> view ${locations[i].views}  </span>
             <i class="fa fa-heart" style="color:${
-            locations[i].isLike ? "red" : "black"
+              locations[i].isLike ? "red" : "black"
             }" onclick="like(${i})" ></i>
           </div>
         </div>
@@ -183,12 +196,14 @@ const render = () => {
             <img src=${locations[i].image} alt="image" onclick="info(${i})"/>
               <div class="cardDiv">
                 <span class="span"> ${locations[i].name}  </span>
-                <p> ${shortStr(locations[i].description)} <span class="readMore" onclick="info(${i})" >read more</span></p>
+                <p> ${shortStr(
+                  locations[i].description
+                )} <span class="readMore" onclick="info(${i})" >read more</span></p>
                 <hr>
                 <div class="cardInfo">
                   <span> view ${locations[i].views}  </span>
                   <i class="fa fa-heart" style="color:${
-                  locations[i].isLike ? "red" : "black"
+                    locations[i].isLike ? "red" : "black"
                   }" onclick="like(${i})" ></i>
                 </div>
               </div>
@@ -218,7 +233,51 @@ const render = () => {
   //   );
 };
 
+const renderSearch = (val) => {
+  let newArr = locations.filter((location) =>
+    location.name.toUpperCase().includes(val.toUpperCase())
+  );
+  $(".cards").html(` `);
+
+  newArr.forEach((location, i) => {
+    $(".cards").append(`
+    <div class="card" >
+        <img src=${location.image} alt="image" onclick="info(${location.id})"/>
+          <div class="cardDiv">
+            <span class="span"> ${location.name}  </span>
+            <p> ${shortStr(
+              location.description
+            )} <span class="readMore" onclick="info(${
+      location.id
+    })" >read more</span></p>
+            <hr>
+            <div class="cardInfo">
+              <span> view ${location.views}  </span>
+              <i class="fa fa-heart" style="color:${
+                location.isLike ? "red" : "black"
+              }" onclick="likeSearch(${location.id}, '${val}')" ></i>
+            </div>
+          </div>
+    </div>
+`);
+  });
+};
+
+
 render();
 
 $(".btnShowMore").click(showMore);
 // click(showMore());
+
+// $(".searchInput").enter( function() {
+//   alert("input")
+// })
+
+$(document.body).on("keyup", $.searchInput, function (event) {
+  if (event.keyCode == 13) {
+    // 13 = Enter Key
+    renderSearch($(".searchInput").val());
+    $(".searchInput").val("");
+    $(".btnShowMore").remove();
+  }
+});

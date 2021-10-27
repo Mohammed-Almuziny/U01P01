@@ -57,10 +57,21 @@ main {
   margin: 2rem 0 4rem;
 }
 
-.title {
+.mainTop {
   display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.searchInput {
+  border: 0.2rem solid hsl(217, 46%, 51%);
+  margin: 0;
+  padding: 0.5rem;
+  width: 20rem;
+}
+
+.searchInput::placeholder {
+  color: #4773bb;
 }
 
 .cards {
@@ -92,6 +103,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-top: -4px;
 }
 .card span {
   margin: 0;
@@ -132,27 +144,69 @@ i:hover {
   cursor: pointer;
 }
 
-.btnShowMore:hover{
+.btnShowMore:hover {
   color: black;
 }
 
+.mainInfo {
+  margin-bottom: 1rem;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .mainInfo img {
-  width: 100%;
   height: 87vh;
 }
 
-.aboutUsMain {
-  padding: 50px;
-  width: 100%;
+.info h2 {
   text-align: center;
-  background-color: #4773bb;
+  margin-bottom: 1rem;
+}
+
+.infoData {
+  padding: 1rem;
+}
+
+.aboutUsMain {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: #3c4596;
   color: white;
+  margin: 4.5rem 15rem;
+  border: 0.2rem solid #4773bb;
+  padding: 2rem;
+}
+
+.aboutUsHeading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aboutUsDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.icons i {
+  margin: 0 1rem;
 }
 
 form {
   background-color: #3c4596;
   height: 20rem;
-  padding: 2rem 2rem;
+  padding: 2rem;
   margin: 0 15rem;
   border: 0.2rem solid #4773bb;
   text-align: center;
@@ -165,17 +219,16 @@ form h2 {
 
 input,
 textarea {
-  color: #4773bb;
   background-color: #3c4596;
   display: block;
   margin: 1rem 0;
   border: 0;
-  border-bottom: 1px solid #4773bb;
+  border-bottom: 1px solid white;
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: #4773bb;
+  color: white;
 }
 
 .formInfo {
@@ -183,7 +236,6 @@ textarea::placeholder {
   flex-direction: column;
   justify-items: center;
 }
-
 
 .submit {
   width: 7rem;
@@ -206,4 +258,56 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .wrapper {
+    padding: 0;
+  }
+  header {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    justify-content: center;
+  }
+
+  nav ul {
+    /* width: 100%; */
+    display: flex;
+    align-items: center;
+  }
+
+  .mainTop {
+    display: block;
+    margin-bottom: 2rem;
+    justify-content: center;
+  }
+
+  .mainTop h4 {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .searchInput {
+    width: 20rem;
+    margin-left: 1rem;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1rem;
+    justify-items: center;
+  }
+  a {
+    text-decoration: none;
+    font-size: small;
+    color: black;
+  }
 }
