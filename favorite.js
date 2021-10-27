@@ -39,6 +39,12 @@ let favLocation = locations.filter((location) => location.isLike);
 
 let maxCard = 2;
 
+const shortStr = (str) => {
+  str = str.substr(0,100)
+  str+= "..."
+  return str
+}
+
 const like = (ID, favIndex) => {
   console.log(favIndex);
   let index;
@@ -113,17 +119,21 @@ const showMore = () => {
     for (let i = maxCard + 1; i <= maxCard + 3; i++) {
       if (favLocation[i]) {
         $(".cards").append(`
-          <div class="card">
-              <img src=${favLocation[i].images[0]} alt="image" onclick="info(${i})" />
-              <span class="span"> ${favLocation[i].name}  
-                  <i class="fa fa-heart-o" style="color:${
-                    favLocation[i].isLike ? "red" : "black"
-                  }" onclick="like(${favLocation[i].id}, ${i})" ></i>
-              </span>
-              
-              
-          </div>
-      `);
+        <div class="card" >
+            <img src=${locations[i].image} alt="image" onclick="info(${i})"/>
+              <div class="cardDiv">
+                <span class="span"> ${locations[i].name}  </span>
+                <p> ${shortStr(locations[i].description)} <span class="readMore" onclick="info(${i})" >read more</span></p>
+                <hr>
+                <div class="cardInfo">
+                  <span> view ${locations[i].views}  </span>
+                  <i class="fa fa-heart" style="color:${
+                  locations[i].isLike ? "red" : "black"
+                  }" onclick="like(${i})" ></i>
+                </div>
+              </div>
+        </div>
+    `);
         newMaxCard++;
       } else {
         $(".btnShowMore").remove();
@@ -138,23 +148,26 @@ const render = () => {
   for (let i = 0; i <= maxCard; i++) {
     if (favLocation[i]) {
       $(".cards").append(`
-        <div class="card">
-            <img src=${favLocation[i].image} alt="image" onclick="info(${i})"/>
-            <span class="span"> ${favLocation[i].name}  
-                <i class="fa fa-heart-o" style="color:${
-                  favLocation[i].isLike ? "red" : "black"
-                }" onclick="like(${favLocation[i].id}, ${i})" ></i>
-            </span>
-            
-            
+      <div class="card" >
+      <img src=${favLocation[i].image} alt="image" onclick="info(${i})"/>
+        <div class="cardDiv">
+          <span class="span"> ${favLocation[i].name}  </span>
+          <p> ${shortStr(favLocation[i].description)} <span class="readMore" onclick="info(${i})" >read more</span></p>
+          <hr>
+          <div class="cardInfo">
+            <span> view ${locations[i].views} </span>
+            <i class="fa fa-heart" style="color:${
+              favLocation[i].isLike ? "red" : "black"
+            }" onclick="like(${i})" ></i>
+          </div>
         </div>
-    `);
+  </div>
+      `);
     } else {
       $(".btnShowMore").remove();
       break;
     }
     if(favLocation.length == 3){
-        console.log(true);
         $(".btnShowMore").remove();
     }
   }
