@@ -210,27 +210,6 @@ const render = () => {
         </div>
     `);
   }
-
-  //   locations.forEach((location,index) => {
-  //     $(".cards").append(`
-  //         <div class="card">
-  //             <img src=${location.image} alt="image" />
-  //             <span class="span"> ${location.name}
-  //                 <i class="fa fa-heart-o" style="color:${(location.isLike? "red": "black" )}" onclick="like(${index})" ></i>
-  //             </span>
-
-  //         </div>
-  //     `);
-  //   });
-
-  //   $(".card").hover(
-  //     function()  {
-  //       $(this).children(".span").toggle();
-  //     },
-  //     function() {
-  //       $(this).children(".span").toggle();
-  //     }
-  //   );
 };
 
 const renderSearch = (val) => {
@@ -263,19 +242,12 @@ const renderSearch = (val) => {
   });
 };
 
-
 render();
 
 $(".btnShowMore").click(showMore);
-// click(showMore());
-
-// $(".searchInput").enter( function() {
-//   alert("input")
-// })
 
 $(document.body).on("keyup", $.searchInput, function (event) {
   if (event.keyCode == 13) {
-    // 13 = Enter Key
     renderSearch($(".searchInput").val());
     $(".searchInput").val("");
     $(".btnShowMore").remove();
