@@ -296,7 +296,11 @@ footer {
 
   .searchInput {
     width: 20rem;
-    margin-left: 1rem;
+  }
+
+  .searchDiv{
+    display: flex;
+    justify-content: center;
   }
 
   .cards {
